@@ -1,5 +1,6 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 from users import create_user
+from posts import create_post
+from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
 
 
@@ -47,7 +48,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
-    #   def do_GET(self):
+    # def do_GET(self):
     #     self._set_headers(200)
 
     #     response = {}
@@ -57,16 +58,13 @@ class HandleRequests(BaseHTTPRequestHandler):
     #     if len(parsed) == 2:
     #         (resource, id) = parsed
 
-    #         if resource == "users":
-    #             if id is not None:
-    #                 response = f"{get_single_animal(id)}"
+    #         if resource == "posts":
+    #             if self.path == "/animals":
+    #                 response = get_all_posts()
     #             else:
-    #                 response = f"{get_all_users()}"
+    #                 response = []
 
     #     self.wfile.write(response.encode())
-
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any POST request.
 
     def do_POST(self):
         self._set_headers(201)
@@ -81,8 +79,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
+        elif resource == "posts":
+            new == create_post(post_body)
 
-            self.wfile.write(f"{new}".encode())
+        self.wfile.write(f"{new}".encode())
 
     # def do_PUT(self):
     #     content_len = int(self.headers.get('content-length', 0))
