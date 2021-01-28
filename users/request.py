@@ -8,11 +8,22 @@ def create_user(new_user):
 
         db_cursor.execute("""
         INSERT INTO Users
-            ( first_name, last_name, email, password, "", "", "", "", "", "" )
+            ( first_name,
+              last_name,
+              email,
+              password,
+              bio,
+              username,
+              profile_image_url,
+              created_on,
+              active,
+              account_type_id )
         VALUES
             ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        """, (new_user['first_name'], new_user['last_name'],
-              new_user['email'], new_user['password']))
+        """, (new_user['first_name'],
+              new_user['last_name'],
+              new_user['email'], 
+              new_user['password'], "", "", "", "", "", ""))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
