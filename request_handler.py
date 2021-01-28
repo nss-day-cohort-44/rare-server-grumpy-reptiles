@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from users import create_user
-from comments import create_comment
+from comments import create_comment, delete_comment
 import json
 
 
@@ -108,37 +108,24 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     #     self.wfile.write("".encode())
 
-    # def do_DELETE(self):
-    #     # Set a 204 response code
-    #     self._set_headers(204)
+    def do_DELETE(self):
+        # Set a 204 response code
+        self._set_headers(204)
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
 
-    #     # Delete a single animal from the list
-    #     if resource == "animals":
-    #         delete_animal(id)
+        # Delete a single comment from the list
+        if resource == "comments":
+            delete_comment(id)
 
-    #     # Encode the new animal and send in response
-    #     self.wfile.write("".encode())
+        # Encode the new comment and send in response
+        self.wfile.write("".encode())
 
-    #     if resource == "customers":
-    #         delete_customer(id)
+        
 
-    #     self.wfile.write("".encode())
-
-    #     if resource == "employees":
-    #         delete_employee(id)
-
-    #     self.wfile.write("".encode())
-
-    #     if resource == "locations":
-    #         delete_location(id)
-
-    #     self.wfile.write("".encode())
-
-    #     # This function is not inside the class. It is the starting
-    #     # point of this application.
+        # This function is not inside the class. It is the starting
+        # point of this application.
 
 
 def main():

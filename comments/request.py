@@ -2,6 +2,15 @@ import sqlite3
 import json
 
 
+def delete_comment(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM Comments
+        WHERE id = ?
+        """, (id, ))
+
 def create_comment(new_comment):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
