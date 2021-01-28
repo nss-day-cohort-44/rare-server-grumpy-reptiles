@@ -15,6 +15,7 @@ CREATE TABLE "Users" (
   "created_on" date,
   "active" bit,
   "account_type_id" INTEGER,
+  "password" varchar
   FOREIGN KEY(`account_type_id`) REFERENCES `AccountTypes`(`id`)
 );
 
@@ -96,3 +97,43 @@ INSERT INTO Tags ('label') VALUES ('JavaScript');
 INSERT INTO Reactions ('label', 'image_url') VALUES ('happy', 'https://pngtree.com/so/happy');
 INSERT INTO AccountTypes ('label') VALUES ('Admin');
 INSERT INTO AccountTypes ('label') VALUES ('Author');
+
+INSERT INTO "Users"
+VALUES (
+  null, 
+  "Sam", 
+  "Harris", 
+  "email@email.com", 
+  "Cool Guy", 
+  "SammyHair", 
+  "", 
+  2021-01-27, 
+  0, 
+  10);
+
+
+
+CREATE TABLE "Users" (
+  "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "first_name" varchar,
+  "last_name" varchar,
+  "email" varchar,
+  "bio" varchar,
+  "username" varchar,
+  "profile_image_url" varchar,
+  "created_on" date,
+  "active" bit,
+  "account_type_id" INTEGER,
+  FOREIGN KEY(`account_type_id`) REFERENCES `AccountTypes`(`id`)
+);
+
+DROP TABLE IF EXISTS `Categories`;
+DROP TABLE IF EXISTS `Tags`;
+DROP TABLE IF EXISTS `Reactions`;
+DROP TABLE IF EXISTS `PostReactions`;
+DROP TABLE IF EXISTS `Posts`;
+DROP TABLE IF EXISTS `PostTags`;
+DROP TABLE IF EXISTS `Comments`;
+DROP TABLE IF EXISTS `Subscriptions`;
+DROP TABLE IF EXISTS `DemotionQueue`;
+DROP TABLE IF EXISTS `Users`;
