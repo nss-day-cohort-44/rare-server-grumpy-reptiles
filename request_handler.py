@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from users import create_user
+from users import create_user, login_user
 import json
 from posts import get_all_posts
 from posts import get_posts_by_user
@@ -90,6 +90,12 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
+
+            self.wfile.write(f"{new}".encode())
+
+    
+        if resource == "login":
+            new = login_user(post_body)
 
             self.wfile.write(f"{new}".encode())
 

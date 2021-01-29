@@ -10,10 +10,7 @@
 ```git fetch --all```
 ```git checkout branch-name```
 ```code .```
-```npm start```
-new tab
-```cd api```
-```json-server -p 8088 -w database.json```
-
+```pipenv shell```
+```watchgod request_handler.main```
 ## Issue #
 
