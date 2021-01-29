@@ -93,4 +93,7 @@ def get_single_post(id):
 
     return json.dumps(post.__dict__)
 
-
+def do_PUT(self):
+    self._set_headers(204)
+    content_len = int(self.headers.get('content-length', 0))
+    post_body = 
