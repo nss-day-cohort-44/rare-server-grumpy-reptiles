@@ -1,6 +1,6 @@
 from comments.request import update_comment
 from users import create_user
-from posts import create_post
+from posts import create_post, delete_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from comments import create_comment, delete_comment, update_comment
 from users import create_user, login_user
@@ -138,6 +138,8 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Delete a single comment from the list
         if resource == "comments":
             delete_comment(id)
+        elif resource == "posts":
+            delete_post(id)
 
         # Encode the new comment and send in response
         self.wfile.write("".encode())
