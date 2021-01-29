@@ -22,14 +22,18 @@ def create_comment(new_comment):
         INSERT INTO Comments
             ( post_id,
               author_id,
-              content
+              content,
+              subject,
+              creation_datetime
                )
 
         VALUES
-            ( ?, ?, ?);
+            ( ?, ?, ?, ?, ?);
         """, (new_comment['post_id'],
               new_comment['author_id'],
               new_comment['content'], 
+              new_comment['subject'], 
+              new_comment['creation_datetime'] 
               ))
 
 
@@ -56,9 +60,10 @@ def update_comment(id, new_comment):
         UPDATE Comments
             SET
                 
-                content = ?
+                content = ?,
+                subject = ?
         WHERE id = ?
-        """, (new_comment['content'], id, ))
+        """, (new_comment['content'],new_comment['subject'], id ))
 
         # Were any rows affected?
         # Did the client send an `id` that exists?
