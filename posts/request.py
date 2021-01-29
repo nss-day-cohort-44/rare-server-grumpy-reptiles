@@ -136,7 +136,7 @@ def update_post(id, new_post):
                 category_id = ?,
                 title = ?,
                 image_url = ?,
-                content = ?,
+                content = ?
         WHERE id = ?
         """, (new_post['category_id'], new_post['title'], new_post['image_url'], new_post['content'], id, ))
         
