@@ -104,6 +104,17 @@ VALUES (
     1
   );
 
+INSERT INTO Posts
+VALUES (
+  null,
+  1,
+  1,
+  "Article Title",
+  "",
+  "",
+  "This is where text body goes.",
+  0
+);
 
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
