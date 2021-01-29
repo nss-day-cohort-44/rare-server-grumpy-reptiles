@@ -1,6 +1,9 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from users import create_user
 import json
+from posts import get_all_posts
+from posts import get_posts_by_user
+from posts import get_single_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -47,23 +50,29 @@ class HandleRequests(BaseHTTPRequestHandler):
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
-    #   def do_GET(self):
-    #     self._set_headers(200)
+    def do_GET(self):
+        self._set_headers(200)
 
-    #     response = {}
+        response = {}
 
-    #     parsed = self.parse_url(self.path)
+        parsed = self.parse_url(self.path)
 
-    #     if len(parsed) == 2:
-    #         (resource, id) = parsed
+        if len(parsed) == 2:
+            (resource, id) = parsed
 
-    #         if resource == "users":
-    #             if id is not None:
-    #                 response = f"{get_single_animal(id)}"
-    #             else:
-    #                 response = f"{get_all_users()}"
+            if resource == "posts":
+                if id is not None:
+                    response = f"{get_single_post(id)}"
+                else:
+                    response = f"{get_all_posts()}"
 
-    #     self.wfile.write(response.encode())
+        elif len(parsed) == 3:
+            (resource, key, value) = parsed
+
+            if key == "user_id" and resource == "posts":
+                response = get_posts_by_user(value)
+
+        self.wfile.write(response.encode())
 
     # Here's a method on the class that overrides the parent's method.
     # It handles any POST request.
