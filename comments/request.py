@@ -59,7 +59,7 @@ def create_comment(new_comment):
                )
 
         VALUES
-            ( ?, ?, ?, ?, ?);
+            ( ?, ?, ?, ?);
         """, (new_comment['post_id'],
               new_comment['author_id'],
               new_comment['content'],  
