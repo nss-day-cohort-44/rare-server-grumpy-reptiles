@@ -1,5 +1,5 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from users import create_user
+from users import create_user, login_user
 import json
 from categories import create_category
 
@@ -86,6 +86,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             new = create_category(post_body)
 
         self.wfile.write(f"{new}".encode())
+
+    
+        if resource == "login":
+            new = login_user(post_body)
+
+            self.wfile.write(f"{new}".encode())
 
     # def do_PUT(self):
     #     content_len = int(self.headers.get('content-length', 0))
