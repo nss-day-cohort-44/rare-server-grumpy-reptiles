@@ -130,3 +130,9 @@ DROP TABLE IF EXISTS `AccountTypes`;
 
 SELECT id FROM Users
   WHERE email = "gingle@hymer.com" AND password = "12345"
+
+SELECT
+    c.id,
+    c.label
+FROM category c
+WHERE c.id = 1;

@@ -1,11 +1,10 @@
 from comments.request import update_comment
-from users import create_user
 from posts import create_post, delete_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from comments import create_comment, delete_comment, update_comment
 from users import create_user, login_user
 import json
-from categories import create_category
+from categories import create_category, get_all_categories, get_single_category, delete_category, update_category
 from posts import get_all_posts
 from posts import get_posts_by_user
 from posts import get_single_post
@@ -71,11 +70,18 @@ class HandleRequests(BaseHTTPRequestHandler):
                 else:
                     response = f"{get_all_posts()}"
 
+            if resource == "categories":
+                if id is not None:
+                    response = f"{get_single_category(id)}"
+                else:
+                    response = f"{get_all_categories()}"
+
         elif len(parsed) == 3:
             (resource, key, value) = parsed
 
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
+
 
         self.wfile.write(response.encode())
 
@@ -119,6 +125,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "comments":
             success = update_comment(id, post_body)
+
+        if resource == "categories":
+            success = update_category(id, post_body)
         # rest of the elif's
 
         if success:
@@ -140,6 +149,9 @@ class HandleRequests(BaseHTTPRequestHandler):
             delete_comment(id)
         elif resource == "posts":
             delete_post(id)
+            
+        elif resource == "categories":
+            delete_category(id)
 
         # Encode the new comment and send in response
         self.wfile.write("".encode())
