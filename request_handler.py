@@ -1,10 +1,15 @@
+from comments.request import update_comment
+from users import create_user
+from posts import create_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from comments import create_comment, delete_comment, update_comment
 from users import create_user, login_user
-import json
+from categories import create_category
 from posts import get_all_posts
 from posts import get_posts_by_user
 from posts import get_single_post
 from comments import get_comments_by_post
+import json
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -36,6 +41,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             return (resource, id)
 
+
     def _set_headers(self, status):
         self.send_response(status)
         self.send_header('Content-type', 'application/json')
@@ -50,6 +56,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers',
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
+
 
     def do_GET(self):
         self._set_headers(200)
@@ -92,67 +99,48 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
+        elif resource == "categories":
+            new = create_category(post_body)
+        elif resource == "posts":
+            new = create_post(post_body)
+        elif resource == "comments":
+            new = create_comment(post_body)
 
-            self.wfile.write(f"{new}".encode())
-
-    
-        if resource == "login":
+        elif resource == "login":
             new = login_user(post_body)
 
-            self.wfile.write(f"{new}".encode())
+        self.wfile.write(f"{new}".encode())
 
-    # def do_PUT(self):
-    #     content_len = int(self.headers.get('content-length', 0))
-    #     post_body = self.rfile.read(content_len)
-    #     post_body = json.loads(post_body)
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+    def do_PUT(self):
+        content_len = int(self.headers.get('content-length', 0))
+        post_body = self.rfile.read(content_len)
+        post_body = json.loads(post_body)
 
-    #     success = False
+        (resource, id) = self.parse_url(self.path)
 
-    #     if resource == "animals":
-    #         success = update_animal(id, post_body)
-    #     # rest of the elif's
+        success = False
 
-    #     if success:
-    #         self._set_headers(204)
-    #     else:
-    #         self._set_headers(404)
+        if resource == "comments":
+            success = update_comment(id, post_body)
 
-    #     self.wfile.write("".encode())
+        if success:
+            self._set_headers(204)
+        else:
+            self._set_headers(404)
 
-    # def do_DELETE(self):
-    #     # Set a 204 response code
-    #     self._set_headers(204)
+        self.wfile.write("".encode())
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
 
-    #     # Delete a single animal from the list
-    #     if resource == "animals":
-    #         delete_animal(id)
+    def do_DELETE(self):
+        self._set_headers(204)
 
-    #     # Encode the new animal and send in response
-    #     self.wfile.write("".encode())
+        (resource, id) = self.parse_url(self.path)
 
-    #     if resource == "customers":
-    #         delete_customer(id)
+        if resource == "comments":
+            delete_comment(id)
 
-    #     self.wfile.write("".encode())
-
-    #     if resource == "employees":
-    #         delete_employee(id)
-
-    #     self.wfile.write("".encode())
-
-    #     if resource == "locations":
-    #         delete_location(id)
-
-    #     self.wfile.write("".encode())
-
-    #     # This function is not inside the class. It is the starting
-    #     # point of this application.
+        self.wfile.write("".encode())
 
 
 def main():

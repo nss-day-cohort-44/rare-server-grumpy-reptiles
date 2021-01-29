@@ -32,3 +32,63 @@ def get_comments_by_post(post_id):
             comments.append(comment.__dict__)
 
     return json.dumps(comments)
+
+
+def delete_comment(id):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        DELETE FROM Comments
+        WHERE id = ?
+        """, (id, ))
+
+
+def create_comment(new_comment):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        INSERT INTO Comments
+            ( post_id,
+              author_id,
+              content
+               )
+
+        VALUES
+            ( ?, ?, ?);
+        """, (new_comment['post_id'],
+              new_comment['author_id'],
+              new_comment['content'], 
+              ))
+
+        id = db_cursor.lastrowid
+
+        new_comment['id'] = id
+
+    return json.dumps(new_comment)
+
+
+def update_comment(id, new_comment):
+    with sqlite3.connect("./rare.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Comments
+            SET
+                
+                content = ?
+        WHERE id = ?
+        """, (new_comment['content'], id, ))
+
+
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+
+        return False
+    else:
+
+        return True   
+
+  
