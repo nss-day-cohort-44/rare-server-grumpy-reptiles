@@ -47,26 +47,23 @@ class HandleRequests(BaseHTTPRequestHandler):
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
-    #   def do_GET(self):
-    #     self._set_headers(200)
+      def do_GET(self):
+        self._set_headers(200)
 
-    #     response = {}
+        response = {}
 
-    #     parsed = self.parse_url(self.path)
+        parsed = self.parse_url(self.path)
 
-    #     if len(parsed) == 2:
-    #         (resource, id) = parsed
+        if len(parsed) == 2:
+            (resource, id) = parsed
 
-    #         if resource == "users":
-    #             if id is not None:
-    #                 response = f"{get_single_animal(id)}"
-    #             else:
-    #                 response = f"{get_all_users()}"
+            if resource == "comment":
+                if id is not None:
+                    response = f"{get_post_comments(post_id)}"
+                else:
+                    response = f"{get_all_comments()}"
 
-    #     self.wfile.write(response.encode())
-
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any POST request.
+        self.wfile.write(response.encode())
 
     def do_POST(self):
         self._set_headers(201)
