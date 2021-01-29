@@ -1,5 +1,5 @@
-from models import Post
 import sqlite3
+from models import Post
 import json
 
 

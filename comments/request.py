@@ -14,7 +14,9 @@ def get_comments_by_post(post_id):
             c.id,
             c.content,
             c.post_id,
-            c.author_id
+            c.author_id,
+            c.subject,
+            c.created_on
         FROM Comments c
         WHERE c.post_id = ?
         """, (post_id, ))
@@ -27,7 +29,9 @@ def get_comments_by_post(post_id):
             comment = Comment(row['id'],
                               row['content'],
                               row['post_id'], 
-                              row['author_id'])
+                              row['author_id'],
+                              row['subject'],
+                              row['created_on'])
 
             comments.append(comment.__dict__)
 

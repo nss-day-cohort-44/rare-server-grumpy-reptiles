@@ -44,9 +44,11 @@ CREATE TABLE "Posts" (
 );
 CREATE TABLE "Comments" (
   "id" INTEGER PRIMARY KEY AUTOINCREMENT,
-  "content" varchar,
   "post_id" INTEGER,
   "author_id" INTEGER,
+  "content" varchar,
+  "subject" varchar,
+  "created_on" date,
   FOREIGN KEY(`post_id`) REFERENCES `Posts`(`id`),
   FOREIGN KEY(`author_id`) REFERENCES `Users`(`id`)
 );
@@ -104,10 +106,10 @@ VALUES (
     1
   );
 
-INSERT INTO `Comments` VALUES (null, "A comment", 1, 1);
-INSERT INTO `Comments` VALUES (null, "Another Comment", 2, 1);
-INSERT INTO `Comments` VALUES (null, "Yay comments", 1, 2);
-INSERT INTO `Comments` VALUES (null, "Boo Comments", 2, 2);
+INSERT INTO `Comments` VALUES (null, 1, 1, "A comment", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 2, 1, "Another Comment", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 1, 2, "Yay comments", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 2, 2, "Boo Comments", "example", 2021-01-27);
 
 INSERT INTO Posts
 VALUES (
