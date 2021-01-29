@@ -15,7 +15,6 @@ def get_comments_by_post(post_id):
             c.content,
             c.post_id,
             c.author_id,
-            c.subject,
             c.created_on
         FROM Comments c
         WHERE c.post_id = ?
@@ -30,7 +29,6 @@ def get_comments_by_post(post_id):
                               row['content'],
                               row['post_id'], 
                               row['author_id'],
-                              row['subject'],
                               row['created_on'])
 
             comments.append(comment.__dict__)
@@ -56,14 +54,16 @@ def create_comment(new_comment):
         INSERT INTO Comments
             ( post_id,
               author_id,
-              content
+              content,
+              created_on
                )
 
         VALUES
-            ( ?, ?, ?);
+            ( ?, ?, ?, ?);
         """, (new_comment['post_id'],
               new_comment['author_id'],
-              new_comment['content'], 
+              new_comment['content'],  
+              new_comment['created_on'] 
               ))
 
         id = db_cursor.lastrowid
@@ -81,9 +81,10 @@ def update_comment(id, new_comment):
         UPDATE Comments
             SET
                 
-                content = ?
+                content = ?,
+                subject = ?
         WHERE id = ?
-        """, (new_comment['content'], id, ))
+        """, (new_comment['content'],new_comment['subject'], id ))
 
 
         rows_affected = db_cursor.rowcount
