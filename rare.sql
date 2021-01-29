@@ -105,6 +105,17 @@ VALUES (
     1
   );
 
+INSERT INTO Posts
+VALUES (
+  null,
+  1,
+  1,
+  "Article Title",
+  "",
+  "",
+  "This is where text body goes.",
+  0
+);
 
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
@@ -117,3 +128,9 @@ DROP TABLE IF EXISTS `Subscriptions`;
 DROP TABLE IF EXISTS `DemotionQueue`;
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `AccountTypes`;
+<<<<<<< HEAD
+=======
+
+SELECT id FROM Users
+  WHERE email = "gingle@hymer.com" AND password = "12345"
+>>>>>>> cbad3902d2d39fe3e3437ec19ca56ca81537091e
