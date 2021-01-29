@@ -1,3 +1,5 @@
+from users import create_user
+from posts import create_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from comments import create_comment, delete_comment
 from users import create_user, login_user
@@ -91,12 +93,13 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
+        if resource == "posts":
+            new = create_post(post_body)
         elif resource == "comments":
             new = create_comment(post_body)
 
-            self.wfile.write(f"{new}".encode())
+        self.wfile.write(f"{new}".encode())
 
-    
         if resource == "login":
             new = login_user(post_body)
 
@@ -136,8 +139,6 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         # Encode the new comment and send in response
         self.wfile.write("".encode())
-
-        
 
         # This function is not inside the class. It is the starting
         # point of this application.
