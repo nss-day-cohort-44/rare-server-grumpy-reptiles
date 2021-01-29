@@ -1,6 +1,10 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from users import create_user, login_user
 import json
+from posts import get_all_posts
+from posts import get_posts_by_user
+from posts import get_single_post
+from comments import get_comments_by_post
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -47,7 +51,7 @@ class HandleRequests(BaseHTTPRequestHandler):
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
 
-      def do_GET(self):
+    def do_GET(self):
         self._set_headers(200)
 
         response = {}
@@ -57,13 +61,23 @@ class HandleRequests(BaseHTTPRequestHandler):
         if len(parsed) == 2:
             (resource, id) = parsed
 
-            if resource == "comment":
+            if resource == "posts":
                 if id is not None:
-                    response = f"{get_post_comments(post_id)}"
+                    response = f"{get_single_post(id)}"
                 else:
-                    response = f"{get_all_comments()}"
+                    response = f"{get_all_posts()}"
+
+        elif len(parsed) == 3:
+            (resource, key, value) = parsed
+
+            if key == "user_id" and resource == "posts":
+                response = get_posts_by_user(value)
+
+            if key == "post_id" and resource == "comments":
+                response = get_comments_by_post(int(value))
 
         self.wfile.write(response.encode())
+
 
     def do_POST(self):
         self._set_headers(201)
