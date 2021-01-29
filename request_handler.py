@@ -1,14 +1,17 @@
 from comments.request import update_comment
 from users import create_user
-from posts import create_post
+from posts import delete_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from comments import create_comment, delete_comment, update_comment
 from users import create_user, login_user
-import json
 from categories import create_category
 from posts import get_all_posts
 from posts import get_posts_by_user
 from posts import get_single_post
+from posts import create_post
+from posts import update_post
+from comments import get_comments_by_post
+import json
 
 
 class HandleRequests(BaseHTTPRequestHandler):
@@ -40,6 +43,7 @@ class HandleRequests(BaseHTTPRequestHandler):
 
             return (resource, id)
 
+
     def _set_headers(self, status):
         self.send_response(status)
         self.send_header('Content-type', 'application/json')
@@ -54,6 +58,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Headers',
                          'X-Requested-With, Content-Type, Accept')
         self.end_headers()
+
 
     def do_GET(self):
         self._set_headers(200)
@@ -77,10 +82,11 @@ class HandleRequests(BaseHTTPRequestHandler):
             if key == "user_id" and resource == "posts":
                 response = get_posts_by_user(value)
 
+            if key == "post_id" and resource == "comments":
+                response = get_comments_by_post(int(value))
+
         self.wfile.write(response.encode())
 
-    # Here's a method on the class that overrides the parent's method.
-    # It handles any POST request.
 
     def do_POST(self):
         self._set_headers(201)
@@ -107,19 +113,20 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         self.wfile.write(f"{new}".encode())
 
+
     def do_PUT(self):
         content_len = int(self.headers.get('content-length', 0))
         post_body = self.rfile.read(content_len)
         post_body = json.loads(post_body)
 
-        # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
         success = False
 
-        if resource == "comments":
+        if resource == "posts":
+            success = update_post(id, post_body)
+        elif resource == "comments":
             success = update_comment(id, post_body)
-        # rest of the elif's
 
         if success:
             self._set_headers(204)
@@ -127,23 +134,20 @@ class HandleRequests(BaseHTTPRequestHandler):
             self._set_headers(404)
 
         self.wfile.write("".encode())
+        
+
 
     def do_DELETE(self):
-        # Set a 204 response code
         self._set_headers(204)
 
-        # Parse the URL
         (resource, id) = self.parse_url(self.path)
 
-        # Delete a single comment from the list
         if resource == "comments":
             delete_comment(id)
+        elif resource == "posts":
+            delete_post(id)
 
-        # Encode the new comment and send in response
         self.wfile.write("".encode())
-
-        # This function is not inside the class. It is the starting
-        # point of this application.
 
 
 def main():

@@ -1,8 +1,39 @@
+
 import sqlite3
 import json
+from models import Comment
 
- 
 
+def get_comments_by_post(post_id):
+    with sqlite3.connect("./rare.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            c.id,
+            c.content,
+            c.post_id,
+            c.author_id,
+            c.created_on
+        FROM Comments c
+        WHERE c.post_id = ?
+        """, (post_id, ))
+
+        comments = []
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            comment = Comment(row['id'],
+                              row['content'],
+                              row['post_id'], 
+                              row['author_id'],
+                              row['created_on'])
+
+            comments.append(comment.__dict__)
+
+    return json.dumps(comments)
 
 
 def delete_comment(id):
@@ -14,6 +45,7 @@ def delete_comment(id):
         WHERE id = ?
         """, (id, ))
 
+
 def create_comment(new_comment):
     with sqlite3.connect("./rare.db") as conn:
         db_cursor = conn.cursor()
@@ -23,30 +55,19 @@ def create_comment(new_comment):
             ( post_id,
               author_id,
               content,
-              subject,
-              creation_datetime
+              created_on
                )
 
         VALUES
             ( ?, ?, ?, ?, ?);
         """, (new_comment['post_id'],
               new_comment['author_id'],
-              new_comment['content'], 
-              new_comment['subject'], 
-              new_comment['creation_datetime'] 
+              new_comment['content'],  
+              new_comment['created_on'] 
               ))
 
-
-              
-
-        # The `lastrowid` property on the cursor will return
-        # the primary key of the last thing that got added to
-        # the database.
         id = db_cursor.lastrowid
 
-        # Add the `id` property to the animal dictionary that
-        # was sent by the client so that the client sees the
-        # primary key in the response.
         new_comment['id'] = id
 
     return json.dumps(new_comment)
@@ -65,15 +86,14 @@ def update_comment(id, new_comment):
         WHERE id = ?
         """, (new_comment['content'],new_comment['subject'], id ))
 
-        # Were any rows affected?
-        # Did the client send an `id` that exists?
+
         rows_affected = db_cursor.rowcount
 
     if rows_affected == 0:
-        # Forces 404 response by main module
+
         return False
     else:
-        # Forces 204 response by main module
+
         return True   
 
   
