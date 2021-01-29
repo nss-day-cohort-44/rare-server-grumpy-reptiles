@@ -1,4 +1,7 @@
+from users import create_user
+from posts import create_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from comments import create_comment, delete_comment
 from users import create_user, login_user
 import json
 from categories import create_category
@@ -93,14 +96,15 @@ class HandleRequests(BaseHTTPRequestHandler):
             new = create_user(post_body)
         elif resource == "categories":
             new = create_category(post_body)
+        elif resource == "posts":
+            new = create_post(post_body)
+        elif resource == "comments":
+            new = create_comment(post_body)
 
-        self.wfile.write(f"{new}".encode())
-
-    
-        if resource == "login":
+        elif resource == "login":
             new = login_user(post_body)
 
-            self.wfile.write(f"{new}".encode())
+        self.wfile.write(f"{new}".encode())
 
     # def do_PUT(self):
     #     content_len = int(self.headers.get('content-length', 0))
@@ -123,37 +127,22 @@ class HandleRequests(BaseHTTPRequestHandler):
 
     #     self.wfile.write("".encode())
 
-    # def do_DELETE(self):
-    #     # Set a 204 response code
-    #     self._set_headers(204)
+    def do_DELETE(self):
+        # Set a 204 response code
+        self._set_headers(204)
 
-    #     # Parse the URL
-    #     (resource, id) = self.parse_url(self.path)
+        # Parse the URL
+        (resource, id) = self.parse_url(self.path)
 
-    #     # Delete a single animal from the list
-    #     if resource == "animals":
-    #         delete_animal(id)
+        # Delete a single comment from the list
+        if resource == "comments":
+            delete_comment(id)
 
-    #     # Encode the new animal and send in response
-    #     self.wfile.write("".encode())
+        # Encode the new comment and send in response
+        self.wfile.write("".encode())
 
-    #     if resource == "customers":
-    #         delete_customer(id)
-
-    #     self.wfile.write("".encode())
-
-    #     if resource == "employees":
-    #         delete_employee(id)
-
-    #     self.wfile.write("".encode())
-
-    #     if resource == "locations":
-    #         delete_location(id)
-
-    #     self.wfile.write("".encode())
-
-    #     # This function is not inside the class. It is the starting
-    #     # point of this application.
+        # This function is not inside the class. It is the starting
+        # point of this application.
 
 
 def main():
