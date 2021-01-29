@@ -79,8 +79,8 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
-        elif resource == "posts":
-            new == create_post(post_body)
+        if resource == "posts":
+            new = create_post(post_body)
 
         self.wfile.write(f"{new}".encode())
 
