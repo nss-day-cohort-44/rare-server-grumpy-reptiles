@@ -104,6 +104,11 @@ VALUES (
     1
   );
 
+INSERT INTO 'Comments' VALUES (null, 1, 1, "A comment");
+INSERT INTO 'Comments' VALUES (null, 2, 1, "Another Comment");
+INSERT INTO 'Comments' VALUES (null, 1, 2, "Yay comments");
+INSERT INTO 'Comments' VALUES (null, 2, 2, "Boo Comments");
+
 
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
