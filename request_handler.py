@@ -1,8 +1,10 @@
+from comments.request import update_comment
 from users import create_user
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from comments import create_comment, delete_comment
+from comments import create_comment, delete_comment, update_comment
 from users import create_user, login_user
 import json
+from categories import create_category
 from posts import get_all_posts
 from posts import get_posts_by_user
 from posts import get_single_post
@@ -94,17 +96,17 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "register":
             new = create_user(post_body)
-        if resource == "posts":
+        elif resource == "categories":
+            new = create_category(post_body)
+        elif resource == "posts":
             new = create_post(post_body)
         elif resource == "comments":
             new = create_comment(post_body)
 
-        self.wfile.write(f"{new}".encode())
-
-        if resource == "login":
+        elif resource == "login":
             new = login_user(post_body)
 
-            self.wfile.write(f"{new}".encode())
+        self.wfile.write(f"{new}".encode())
 
     def do_PUT(self):
         content_len = int(self.headers.get('content-length', 0))
@@ -118,6 +120,9 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if resource == "posts":
             success = update_post(id, post_body)
+        elif resource == "comments":
+            success = update_comment(id, post_body)
+        # rest of the elif's
 
         if success:
             self._set_headers(204)
