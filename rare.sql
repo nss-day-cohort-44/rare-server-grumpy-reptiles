@@ -103,6 +103,8 @@ VALUES (
     0,
     1
   );
+
+
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
 DROP TABLE IF EXISTS `Reactions`;

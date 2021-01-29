@@ -1,6 +1,6 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from users import create_user
 from comments import create_comment, delete_comment
+from users import create_user, login_user
 import json
 
 
@@ -84,6 +84,12 @@ class HandleRequests(BaseHTTPRequestHandler):
             new = create_user(post_body)
         elif resource == "comments":
             new = create_comment(post_body)
+
+            self.wfile.write(f"{new}".encode())
+
+    
+        if resource == "login":
+            new = login_user(post_body)
 
             self.wfile.write(f"{new}".encode())
 
