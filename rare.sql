@@ -47,6 +47,8 @@ CREATE TABLE "Comments" (
   "post_id" INTEGER,
   "author_id" INTEGER,
   "content" varchar,
+  "subject" varchar,
+  "created_on" date,
   FOREIGN KEY(`post_id`) REFERENCES `Posts`(`id`),
   FOREIGN KEY(`author_id`) REFERENCES `Users`(`id`)
 );
@@ -104,6 +106,11 @@ VALUES (
     1
   );
 
+INSERT INTO `Comments` VALUES (null, 1, 1, "A comment", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 2, 1, "Another Comment", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 1, 2, "Yay comments", "example", 2021-01-27);
+INSERT INTO `Comments` VALUES (null, 2, 2, "Boo Comments", "example", 2021-01-27);
+
 INSERT INTO Posts
 VALUES (
   null,
@@ -129,10 +136,11 @@ DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `AccountTypes`;
 
 SELECT id FROM Users
-  WHERE email = "gingle@hymer.com" AND password = "12345"
+  WHERE email = "gingle@hymer.com" AND password = "12345";
 
 SELECT
     c.id,
-    c.label
-FROM category c
-WHERE c.id = 1;
+    c.content,
+    c.post_id,
+    c.author_id
+FROM comments c
