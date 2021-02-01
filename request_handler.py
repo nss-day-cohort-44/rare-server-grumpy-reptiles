@@ -1,7 +1,7 @@
 
 from posts import create_post, delete_post
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from comments import create_comment, delete_comment, update_comment
+from comments import create_comment, delete_comment, update_comment, get_all_comments
 from users import create_user, login_user
 import json
 from categories import create_category, get_all_categories, get_single_category, delete_category, update_category
@@ -81,15 +81,21 @@ class HandleRequests(BaseHTTPRequestHandler):
                     response = f"{get_single_category(id)}"
                 else:
                     response = f"{get_all_categories()}"
+            if resource == "comments":
+                if id is not None:
+                    response = f"{get_all_comments()}"
+                else:
+                    response = f"{get_all_comments()}"
 
+                  
         elif len(parsed) == 3:
             (resource, key, value) = parsed
 
             if key == "user_id" and resource == "posts":
-                response = get_posts_by_user(value)
+                response = f"{get_posts_by_user(value)}"
 
             if key == "post_id" and resource == "comments":
-                response = get_comments_by_post(int(value))
+                response = f"{get_comments_by_post(int(value))}"
 
         self.wfile.write(response.encode())
 
