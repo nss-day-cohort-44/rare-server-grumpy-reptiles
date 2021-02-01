@@ -49,6 +49,7 @@ def get_all_posts():
             p.content,
             p.approved
         FROM posts p
+        WHERE approved="1"
         """)
 
         posts = []
@@ -149,7 +150,7 @@ def update_post(id, new_post):
                 content = ?
         WHERE id = ?
         """, (new_post['category_id'], new_post['title'], new_post['image_url'], new_post['content'], id, ))
-        
+
         rows_affected = db_cursor.rowcount
 
         if rows_affected == 0:
