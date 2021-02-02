@@ -121,8 +121,8 @@ def get_single_post(id):
         data = db_cursor.fetchone()
 
         post = Post(data['id'], data['user_id'], data['category_id'],
-                    data['title'], data['publication_date'],
-                    data['image_url'], data['content'], data['approved'])
+                    data['title'], data['content'],
+                    data['image_url'], data['publication_date'], data['approved'])
 
     return json.dumps(post.__dict__)
 
