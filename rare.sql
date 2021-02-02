@@ -115,11 +115,11 @@ VALUES (
   null,
   1,
   1,
-  "Article Title",
+  "Another Article Title",
   "",
   "",
   "This is where text body goes.",
-  0
+  1
 );
 
 DROP TABLE IF EXISTS `Categories`;
