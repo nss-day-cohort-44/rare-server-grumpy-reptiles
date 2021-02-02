@@ -98,7 +98,7 @@ VALUES (
     "email@email.com",
     "password",
     "Cool pants!",
-    "samjam",
+    "email@email.com",
     "",
     2021 -01 -27,
     0,
