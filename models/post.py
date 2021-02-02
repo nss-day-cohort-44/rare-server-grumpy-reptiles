@@ -8,3 +8,4 @@ class Post():
         self.approved = approved
         self.publication_date = publication_date
         self.image_url = image_url
+        self.user = None

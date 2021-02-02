@@ -22,8 +22,8 @@ def create_user(new_user):
             ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """, (new_user['first_name'],
               new_user['last_name'],
-              new_user['email'], 
-              new_user['password'], "", "", "", "", "", ""))
+              new_user['email'],
+              new_user['password'], "", new_user['email'], "", "", "", ""))
 
         # The `lastrowid` property on the cursor will return
         # the primary key of the last thing that got added to
@@ -51,6 +51,6 @@ def login_user(user):
 
         data = db_cursor.fetchone()
 
-        user_id = {"token": data[0], "valid": True }
+        user_id = {"token": data[0], "valid": True}
 
     return json.dumps(user_id)

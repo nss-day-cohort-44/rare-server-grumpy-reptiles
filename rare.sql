@@ -98,30 +98,52 @@ VALUES (
     "email@email.com",
     "password",
     "Cool pants!",
-    "samjam",
+    "email@email.com",
     "",
     2021 -01 -27,
     0,
     1
   );
-
-INSERT INTO `Comments` VALUES (null, 1, 1, "A comment", "example", 2021-01-27);
-INSERT INTO `Comments` VALUES (null, 2, 1, "Another Comment", "example", 2021-01-27);
-INSERT INTO `Comments` VALUES (null, 1, 2, "Yay comments", "example", 2021-01-27);
-INSERT INTO `Comments` VALUES (null, 2, 2, "Boo Comments", "example", 2021-01-27);
-
+INSERT INTO `Comments`
+VALUES (null, 1, 1, "A comment", "example", 2021 -01 -27);
+INSERT INTO `Comments`
+VALUES (
+    null,
+    2,
+    1,
+    "Another Comment",
+    "example",
+    2021 -01 -27
+  );
+INSERT INTO `Comments`
+VALUES (
+    null,
+    1,
+    2,
+    "Yay comments",
+    "example",
+    2021 -01 -27
+  );
+INSERT INTO `Comments`
+VALUES (
+    null,
+    2,
+    2,
+    "Boo Comments",
+    "example",
+    2021 -01 -27
+  );
 INSERT INTO Posts
 VALUES (
-  null,
-  1,
-  1,
-  "Article Title",
-  "",
-  "",
-  "This is where text body goes.",
-  0
-);
-
+    null,
+    1,
+    1,
+    "Article Title",
+    "",
+    "",
+    "This is where text body goes.",
+    0
+  );
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
 DROP TABLE IF EXISTS `Reactions`;
@@ -133,13 +155,12 @@ DROP TABLE IF EXISTS `Subscriptions`;
 DROP TABLE IF EXISTS `DemotionQueue`;
 DROP TABLE IF EXISTS `Users`;
 DROP TABLE IF EXISTS `AccountTypes`;
-
-SELECT id FROM Users
-  WHERE email = "gingle@hymer.com" AND password = "12345";
-
-SELECT
-    c.id,
-    c.content,
-    c.post_id,
-    c.author_id
+SELECT id
+FROM Users
+WHERE email = "gingle@hymer.com"
+  AND password = "12345";
+SELECT c.id,
+  c.content,
+  c.post_id,
+  c.author_id
 FROM comments c
