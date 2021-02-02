@@ -135,28 +135,15 @@ VALUES (
   );
 INSERT INTO Posts
 VALUES (
-<<<<<<< HEAD
     null,
     1,
     1,
-    "Article Title",
+    "Another Article Title",
     "",
     "",
     "This is where text body goes.",
-    0
+    1
   );
-=======
-  null,
-  1,
-  1,
-  "Another Article Title",
-  "",
-  "",
-  "This is where text body goes.",
-  1
-);
-
->>>>>>> main
 DROP TABLE IF EXISTS `Categories`;
 DROP TABLE IF EXISTS `Tags`;
 DROP TABLE IF EXISTS `Reactions`;
