@@ -1,6 +1,7 @@
 import sqlite3
 from models import Post
 import json
+import datetime
 
 
 def create_post(new_post):
@@ -22,10 +23,10 @@ def create_post(new_post):
         """, (new_post['user_id'],
               new_post['category_id'],
               new_post['title'],
-              new_post['publication_date'],
+              datetime.datetime.now(),
               new_post['image_url'],
               new_post['content'],
-              new_post['approved']))
+              1))
 
         id = db_cursor.lastrowid
         new_post['id'] = id
