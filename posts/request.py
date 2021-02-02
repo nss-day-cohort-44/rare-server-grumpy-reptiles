@@ -85,7 +85,7 @@ def get_posts_by_user(user_id):
         FROM posts p
         WHERE p.user_id = ?
         JOIN User u
-        ON p.user_id = u.id
+        ON u.id = p.user_id
         """, (user_id, ))
 
         posts = []
@@ -98,8 +98,8 @@ def get_posts_by_user(user_id):
                         row['image_url'], row['content'], row['approved'])
             posts.append(post.__dict__)
 
-            user = User(row['username'])
-            post.user = user.__dict__
+            # user = User(row['username'])
+            # post.user = user.__dict__
 
     return json.dumps(posts)
 
