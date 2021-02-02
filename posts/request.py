@@ -84,7 +84,7 @@ def get_posts_by_user(user_id):
             p.approved
         FROM posts p
         WHERE p.user_id = ?
-        """, (user_id, ))
+        """, (user_id))
 
         posts = []
 
@@ -111,9 +111,9 @@ def get_single_post(id):
             p.user_id,
             p.category_id,
             p.title,
-            p.publication_date,
-            p.image_url,
             p.content,
+            p.image_url,
+            p.publication_date,
             p.approved
         FROM posts p
         WHERE p.id = ?
