@@ -12,9 +12,7 @@ CREATE TABLE "Users" (
   "username" varchar,
   "profile_image_url" varchar,
   "created_on" date,
-  "active" bit,
-  "account_type_id" INTEGER,
-  FOREIGN KEY(`account_type_id`) REFERENCES `AccountTypes`(`id`)
+  "active" bit
 );
 CREATE TABLE "DemotionQueue" (
   "action" varchar,
@@ -101,7 +99,6 @@ VALUES (
     "email@email.com",
     "",
     2021 -01 -27,
-    0,
     1
   );
 INSERT INTO `Comments`

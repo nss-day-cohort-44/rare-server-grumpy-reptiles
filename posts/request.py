@@ -2,6 +2,7 @@ import sqlite3
 from models import Post
 import json
 import datetime
+from models import User
 
 
 def create_post(new_post):
@@ -81,11 +82,20 @@ def get_posts_by_user(user_id):
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved
+            p.approved,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.password,
+            u.bio,
+            u.created_on,
+            u.active,
+            u.profile_image_url
         FROM posts p
+        JOIN Users u
+            ON u.id = p.user_id
         WHERE p.user_id = ?
-        JOIN User u
-        ON u.id = p.user_id
         """, (user_id, ))
 
         posts = []
@@ -98,8 +108,10 @@ def get_posts_by_user(user_id):
                         row['image_url'], row['content'], row['approved'])
             posts.append(post.__dict__)
 
-            # user = User(row['username'])
-            # post.user = user.__dict__
+            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['password'],
+                        row['bio'], row['username'],
+                        row['created_on'], row['active'], row['profile_image_url'])
+            post.user = user.__dict__
 
     return json.dumps(posts)
 
