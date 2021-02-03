@@ -23,19 +23,16 @@ def create_user(new_user):
         """, (new_user['first_name'],
               new_user['last_name'],
               new_user['email'], 
-              new_user['password'], "", "", "", "", "", ""))
+              new_user['password'], "", new_user['username'], "", "", "", ""))
 
-        # The `lastrowid` property on the cursor will return
-        # the primary key of the last thing that got added to
-        # the database.
         id = db_cursor.lastrowid
 
-        # Add the `id` property to the animal dictionary that
-        # was sent by the client so that the client sees the
-        # primary key in the response.
         new_user['id'] = id
 
-    return json.dumps(new_user)
+        user_id = {"token": id, "valid": True }
+
+
+    return json.dumps(user_id)
 
 
 def login_user(user):
