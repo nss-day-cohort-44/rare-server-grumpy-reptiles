@@ -88,6 +88,26 @@ INSERT INTO AccountTypes ('label')
 VALUES ('Admin');
 INSERT INTO AccountTypes ('label')
 VALUES ('Author');
+INSERT INTO Posts (
+    id,
+    user_id,
+    category_id,
+    title,
+    publication_date,
+    image_url,
+    content,
+    approved
+  )
+VALUES (
+    id :INTEGER,
+    user_id :INTEGER,
+    category_id :INTEGER,
+    'title:varchar',
+    'publication_date:date',
+    'image_url:varchar',
+    'content:varchar',
+    'approved:bit'
+  );
 INSERT INTO `Users`
 VALUES (
     null,

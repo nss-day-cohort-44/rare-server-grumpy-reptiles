@@ -128,20 +128,40 @@ def get_single_post(id):
             p.user_id,
             p.category_id,
             p.title,
-            p.content,
-            p.image_url,
             p.publication_date,
-            p.approved
+            p.image_url,
+            p.content,
+            p.approved,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.password,
+            u.bio,
+            u.created_on,
+            u.active,
+            u.profile_image_url
         FROM posts p
-        WHERE p.id = ?
+        JOIN Users u
+            ON u.id = p.user_id
+        WHERE p.user_id = ?
         """, (id, ))
 
-        data = db_cursor.fetchone()
+        posts = []
 
-        post = Post(data['id'], data['user_id'], data['category_id'],
-                    data['title'], data['content'],
-                    data['approved'], data['publication_date'], data['image_url'])
+        dataset = db_cursor.fetchall()
 
+        for row in dataset:
+            post = Post(row['id'], row['user_id'], row['category_id'],
+                        row['title'], row['content'], row['approved'], row['publication_date'],
+                        row['image_url'])
+
+            posts.append(post.__dict__)
+
+            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['password'],
+                        row['bio'], row['username'],
+                        row['created_on'], row['active'], row['profile_image_url'])
+            post.user = user.__dict__
     return json.dumps(post.__dict__)
 
 
