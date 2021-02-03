@@ -22,15 +22,14 @@ def create_user(new_user):
             ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         """, (new_user['first_name'],
               new_user['last_name'],
-              new_user['email'], 
+              new_user['email'],
               new_user['password'], "", new_user['username'], "", "", "", ""))
 
         id = db_cursor.lastrowid
 
         new_user['id'] = id
 
-        user_id = {"token": id, "valid": True }
-
+        user_id = {"token": id, "valid": True}
 
     return json.dumps(user_id)
 
@@ -48,6 +47,6 @@ def login_user(user):
 
         data = db_cursor.fetchone()
 
-        user_id = {"token": data[0], "valid": True }
+        user_id = {"token": data[0], "valid": True}
 
     return json.dumps(user_id)

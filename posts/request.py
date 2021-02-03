@@ -2,6 +2,7 @@ import sqlite3
 from models import Post
 import json
 import datetime
+from models import User
 
 
 def create_post(new_post):
@@ -81,8 +82,19 @@ def get_posts_by_user(user_id):
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved
+            p.approved,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.password,
+            u.bio,
+            u.created_on,
+            u.active,
+            u.profile_image_url
         FROM posts p
+        JOIN Users u
+            ON u.id = p.user_id
         WHERE p.user_id = ?
         """, (user_id, ))
 
@@ -96,6 +108,11 @@ def get_posts_by_user(user_id):
                         row['image_url'])
 
             posts.append(post.__dict__)
+
+            user = User(row['id'], row['first_name'], row['last_name'], row['email'], row['password'],
+                        row['bio'], row['username'],
+                        row['created_on'], row['active'], row['profile_image_url'])
+            post.user = user.__dict__
 
     return json.dumps(posts)
 
@@ -114,17 +131,32 @@ def get_single_post(id):
             p.publication_date,
             p.image_url,
             p.content,
-            p.approved
+            p.approved,
+            u.username,
+            u.first_name,
+            u.last_name,
+            u.email,
+            u.password,
+            u.bio,
+            u.created_on,
+            u.active,
+            u.profile_image_url
         FROM posts p
+        JOIN Users u
+            ON u.id = p.user_id
         WHERE p.id = ?
         """, (id, ))
 
         data = db_cursor.fetchone()
 
         post = Post(data['id'], data['user_id'], data['category_id'],
-                    data['title'], data['content'],
-                    data['approved'], data['publication_date'], data['image_url'])
+                    data['title'], data['content'], data['approved'], data['publication_date'],
+                    data['image_url'])
 
+        user = User(data['id'], data['first_name'], data['last_name'], data['email'], data['password'],
+                    data['bio'], data['username'],
+                    data['created_on'], data['active'], data['profile_image_url'])
+        post.user = user.__dict__
     return json.dumps(post.__dict__)
 
 
